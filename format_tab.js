@@ -15,18 +15,6 @@
 //    AA       BB     CC     DD
 //==========================================================================
 
-// 選択範囲のテキストを取得
-var tabtext = Editor.GetSelectedString(0);
-if ( tabtext == '' ) {
-	Editor.MoveHistSet();
-	Editor.BeginSelect();
-	Editor.GoLineTop_Sel();
-	tabtext = Editor.GetSelectedString(0);
-	Editor.Cut();
-	Editor.Paste();
-	Editor.MoveHistPrev();
-}
-
 // 指定した桁数でパディングした文字列を返す
 // str : パディング対象文字列
 // length : パディング桁数
@@ -75,6 +63,13 @@ function format_tab(tabtext) {
   }
   return rettext;
 } 
+
+//==========
+// MAIN
+//==========
+
+// 選択範囲のテキストを取得
+var tabtext = Editor.GetSelectedString(0);
 
 // 整形後のテキストを出力
 if ( tabtext != "" ) Editor.InsText(format_tab(tabtext));
