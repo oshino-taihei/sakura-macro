@@ -17,18 +17,6 @@
 
 //==========================================================================
 
-// 指定した桁数でパディングした文字列を返す
-// str : パディング対象文字列
-// length : パディング桁数
-// padding_char : パディングする文字(" "など)
-function pad(str, length, padding_char) {
-	var padding = "";
-	for (var i = str.length; i < length; i++) {
-		padding += padding_char;
-	}
-	return padding + str;
-}
-
 // TSVテキストをセパレータを"|"にして返す
 // tabtext : TSVテキスト
 function tsv_to_wikitable(tabtext) {
