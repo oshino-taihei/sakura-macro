@@ -3,15 +3,18 @@
 //
 // 【例】:
 // (変換前)
-//header	value1	value2	value3
-//asdf	asdf	asdf	asdf
-//132	12341234	13	12345
-//AA	BB	CC	DD
+// EMPLOYEE_ID	FIRST_NAME	LAST_NAME	EMAIL
+// 198	Donald	OConnell	DOCONNEL
+// 199	Douglas	Grant	DGRANT
+// 200	Jennifer	Whalen	JWHALEN
+// 201	Michael	Hartstein	MHARTSTE
 // (変換後)
-//header   value1 value2 value3
-//  asdf     asdf   asdf   asdf
-//   132 12341234     13  12345
-//    AA       BB     CC     DD
+// |EMPLOYEE_ID|FIRST_NAME|LAST_NAME|EMAIL|
+// |198|Donald|OConnell|DOCONNEL|
+// |199|Douglas|Grant|DGRANT|
+// |200|Jennifer|Whalen|JWHALEN|
+// |201|Michael|Hartstein|MHARTSTE|
+
 //==========================================================================
 
 // 指定した桁数でパディングした文字列を返す
