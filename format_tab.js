@@ -1,18 +1,18 @@
 //==========================================================================
-// 選択されたエクセルからコピペしたようなタブ区切りのテキストを
-// 整形し各項目の開始位置をそろえたスペース区切りのテキストに変換する。
+// 選択されたTSVテキストを
+// 整形し各項目の開始位置をそろえたパイプ区切りのテキストに変換する。
 //
 // 【例】:
 // (変換前)
-//header	value1	value2	value3
-//asdf	asdf	asdf	asdf
-//132	12341234	13	12345
-//AA	BB	CC	DD
+// DEPARTMENT_ID DEPARTMENT_NAME EMPLOYEE_ID EMPLOYEE_NAME
+// 10  Administration  200 Jennifer Whalen
+// 20  Marketing 201 Michael Hartstein
+// 20  Marketing 202 Pat Fay
 // (変換後)
-//header   value1 value2 value3
-//  asdf     asdf   asdf   asdf
-//   132 12341234     13  12345
-//    AA       BB     CC     DD
+// |DEPARTMENT_ID|DEPARTMENT_NAME|EMPLOYEE_ID|    EMPLOYEE_NAME|
+// |           10| Administration|        200|  Jennifer Whalen|
+// |           20|      Marketing|        201|Michael Hartstein|
+// |           20|      Marketing|        202|          Pat Fay|
 //==========================================================================
 
 // 指定した桁数でパディングした文字列を返す
@@ -57,10 +57,11 @@ function format_tab(tabtext) {
   // 整形して返す
   for (var i = 0; i < text_list.length; i++) {
   	for (var j = 0; j < text_list[i].length; j++) {
-  		rettext += pad(text_list[i][j], maxes[j], " ") + " ";
+  		rettext += pad(text_list[i][j], maxes[j], " ") + "|";
   	}
-  	rettext = rettext.slice(0, -1) // 行末の余分なスペースを削除
+  	rettext = rettext.slice(0, -1); // 行末の余分なパイプを削除
   }
+  rettext = rettext.replace(/^(.+?)$/gm, "|$1|"); // 各行の先頭・末尾にパイプを追加
   return rettext;
 } 
 
