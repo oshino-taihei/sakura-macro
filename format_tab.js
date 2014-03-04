@@ -15,13 +15,37 @@
 // |           20|      Marketing|        202|          Pat Fay|
 //==========================================================================
 
+/****************************************************************
+* バイト数を数える
+*
+* 引数 ： str 文字列
+* 戻り値： バイト数 
+* 参考: http://www.kanaya440.com/contents/tips/javascript/006.html
+****************************************************************/
+function countLength(str) {
+    var r = 0;
+    for (var i = 0; i < str.length; i++) {
+        var c = str.charCodeAt(i);
+        // Shift_JIS: 0x0 ～ 0x80, 0xa0 , 0xa1 ～ 0xdf , 0xfd ～ 0xff
+        // Unicode : 0x0 ～ 0x80, 0xf8f0, 0xff61 ～ 0xff9f, 0xf8f1 ～ 0xf8f3
+        if ( (c >= 0x0 && c < 0x81) || (c == 0xf8f0) || (c >= 0xff61 && c < 0xffa0) || (c >= 0xf8f1 && c < 0xf8f4)) {
+            r += 1;
+        } else {
+            r += 2;
+        }
+    }
+    return r;
+}
+        
+
+
 // 指定した桁数でパディングした文字列を返す
 // str : パディング対象文字列
 // length : パディング桁数
 // padding_char : パディングする文字(" "など)
 function pad(str, length, padding_char) {
 	var padding = "";
-	for (var i = str.length; i < length; i++) {
+	for (var i = countLength(str); i < length; i++) {
 		padding += padding_char;
 	}
 	return padding + str;
@@ -46,7 +70,7 @@ function format_tab(tabtext) {
   	}
   	// 行をタブで区切ったセルを見て、その列の最大長を保持
   	for (var j = 0; j < l; j++) {
-  		maxes[j] = Math.max(maxes[j], cells[j].length);
+  		maxes[j] = Math.max(maxes[j], countLength(cells[j]));
   	}
   	// 空行は無視
   	if (lines[i] != "") {
@@ -74,4 +98,3 @@ var tabtext = Editor.GetSelectedString(0);
 
 // 整形後のテキストを出力
 if ( tabtext != "" ) Editor.InsText(format_tab(tabtext));
-
