@@ -36,19 +36,17 @@ function countLength(str) {
     }
     return r;
 }
-        
-
 
 // 指定した桁数でパディングした文字列を返す
 // str : パディング対象文字列
 // length : パディング桁数
 // padding_char : パディングする文字(" "など)
 function pad(str, length, padding_char) {
-	var padding = "";
-	for (var i = countLength(str); i < length; i++) {
-		padding += padding_char;
-	}
-	return padding + str;
+  var padding = "";
+  for (var i = countLength(str); i < length; i++) {
+    padding += padding_char;
+  }
+  return padding + str;
 }
 
 // タブ区切りのテキストを整形されたスペース区切りのテキストにして返す
@@ -59,35 +57,35 @@ function format_tab(tabtext) {
   var maxes; // 各列の文字の最大長を保持するリスト(i番目にi列目の要素の最大長が入る)
   var text_list = []; // タブ区切りのデータを2次元配列として保持するためのリスト
   for (var i = 0; i < lines.length; i++) {
-  	var cells = lines[i].split("\t");
-  	l = cells.length;
-  	// maxes配列を初期化(要素数をセル数、各値の初期値は0)
-  	if (i == 0) {
-  		maxes = new Array(l);
-  		for (var k = 0; k < l; k++) {
-  			maxes[k] = 0;
-  		}
-  	}
-  	// 行をタブで区切ったセルを見て、その列の最大長を保持
-  	for (var j = 0; j < l; j++) {
-  		maxes[j] = Math.max(maxes[j], countLength(cells[j]));
-  	}
-  	// 空行は無視
-  	if (lines[i] != "") {
-  		text_list.push(cells);
-  	}
+    var cells = lines[i].split("\t");
+    l = cells.length;
+    // maxes配列を初期化(要素数をセル数、各値の初期値は0)
+    if (i === 0) {
+      maxes = new Array(l);
+      for (var k = 0; k < l; k++) {
+        maxes[k] = 0;
+      }
+    }
+    // 行をタブで区切ったセルを見て、その列の最大長を保持
+    for (var j = 0; j < l; j++) {
+      maxes[j] = Math.max(maxes[j], countLength(cells[j]));
+    }
+    // 空行は無視
+    if (lines[i] !== "") {
+      text_list.push(cells);
+    }
   }
   
   // 整形して返す
-  for (var i = 0; i < text_list.length; i++) {
-  	for (var j = 0; j < text_list[i].length; j++) {
-  		rettext += pad(text_list[i][j], maxes[j], " ") + "|";
-  	}
-  	rettext = rettext.slice(0, -1); // 行末の余分なパイプを削除
+  for (var l = 0; l < text_list.length; l++) {
+    for (var m = 0; m < text_list[l].length; m++) {
+      rettext += pad(text_list[l][m], maxes[m], " ") + "|";
+    }
+    rettext = rettext.slice(0, -1); // 行末の余分なパイプを削除
   }
   rettext = rettext.replace(/^(.+?)$/gm, "|$1|"); // 各行の先頭・末尾にパイプを追加
   return rettext;
-} 
+}
 
 //==========
 // MAIN
@@ -97,4 +95,4 @@ function format_tab(tabtext) {
 var tabtext = Editor.GetSelectedString(0);
 
 // 整形後のテキストを出力
-if ( tabtext != "" ) Editor.InsText(format_tab(tabtext));
+if ( tabtext !== "" ) Editor.InsText(format_tab(tabtext));
