@@ -52,7 +52,7 @@ function pad(str, length, padding_char) {
 // タブ区切りのテキストを整形されたスペース区切りのテキストにして返す
 // tabtext : タブ区切りのテキスト
 function format_tab(tabtext) {
-  var lines = tabtext.split("\n");
+  var lines = tabtext.split(/\r\n|\r|\n/);
   var rettext = "";
   var maxes; // 各列の文字の最大長を保持するリスト(i番目にi列目の要素の最大長が入る)
   var text_list = []; // タブ区切りのデータを2次元配列として保持するためのリスト
@@ -79,9 +79,10 @@ function format_tab(tabtext) {
   // 整形して返す
   for (var l = 0; l < text_list.length; l++) {
     for (var m = 0; m < text_list[l].length; m++) {
+      // 各要素の値の前後を半角スペースで開け、列の最大長でパディングし、パイプの区切り文字を付与
       rettext += pad(text_list[l][m], maxes[m], " ") + "|";
     }
-    rettext = rettext.slice(0, -1); // 行末の余分なパイプを削除
+    rettext = rettext.slice(0, -1) + "\r\n"; // 行末の余分なパイプを削除し、改行コードを付与
   }
   rettext = rettext.replace(/^(.+?)$/gm, "|$1|"); // 各行の先頭・末尾にパイプを追加
   return rettext;
