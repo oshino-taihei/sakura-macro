@@ -37,16 +37,45 @@ function countLength(str) {
     return r;
 }
 
-// 指定した桁数でパディングした文字列を返す
+// 指定した桁数でパディングした文字列を返す。
+// 文字列に数値しか含まれなければ左パディング、そうでなければ右パディングする。
 // str : パディング対象文字列
 // length : パディング桁数
 // padding_char : パディングする文字(" "など)
 function pad(str, length, padding_char) {
+  if (str.match(/^\d+$/)) {
+    return left_pad(str, length, padding_char);
+  } else {
+    return right_pad(str, length, padding_char);
+  }
+}
+
+// 指定した桁数で左パディングした文字列を返す
+// str : パディング対象文字列
+// length : パディング桁数
+// padding_char : パディングする文字(" "など)
+function left_pad(str, length, padding_char) {
+  return get_padding(str, length, padding_char) + str;
+}
+
+// 指定した桁数で右パディングした文字列を返す
+// str : パディング対象文字列
+// length : パディング桁数
+// padding_char : パディングする文字(" "など)
+function right_pad(str, length, padding_char) {
+  return str + get_padding(str, length, padding_char);
+}
+
+// 指定した桁数でパディングするための補完文字列を返す
+// str : パディング対象文字列
+// length : パディング桁数
+// padding_char : パディングする文字(" "など)
+function get_padding(str, length, padding_char) {
   var padding = "";
   for (var i = countLength(str); i < length; i++) {
     padding += padding_char;
   }
-  return padding + str;
+  return padding;
 }
 
 // タブ区切りのテキストを整形されたスペース区切りのテキストにして返す
